@@ -6,6 +6,11 @@ from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
+# caution: path[0] is reserved for script path (or '' in REPL)
+sys.path.insert(1, '/Users/chris/Documents/WorkStuff/Lit/lit-python-sdk')
+os.environ['ECC_BACKEND_CLASS'] = 'lit_python_sdk.lit_pkp_backend.LitPKPBackend'
+from lit_python_sdk.lit_wallet_address import LitWalletAddress
+
 
 # Import CDP Agentkit Langchain Extension.
 from cdp_langchain.agent_toolkits import CdpToolkit
@@ -19,6 +24,7 @@ def initialize_agent():
     """Initialize the agent with CDP Agentkit."""
     # Initialize LLM.
     llm = ChatOpenAI(model="gpt-4o-mini")
+    Cdp.use_server_signer = False
 
     wallet_data = None
 
@@ -34,6 +40,13 @@ def initialize_agent():
 
     agentkit = CdpAgentkitWrapper(**values)
 
+    print(f"agentkit: {agentkit}")
+    print(f"agentkit.wallet.default_address: {agentkit.wallet}")
+    agentkit.wallet = LitWalletAddress(agentkit.wallet._model, agentkit.wallet.default_address._key)
+    # agentkit.wallet.default_address._model.address_id = "0xcadDF625da1Dd8009E440B89aeEC95f32eC4a185"
+    # agentkit.wallet.default_address._model.public_key = "0430ad735a6fe2358434d6a76d508392d1fd0d2fae1120e43d6052a97355e0401794fbd4ce8524d1654a53b3ce8a67062fe6208acbc9478e2410e1545fa31838a4"
+    print(f"after setting agentkit.wallet: {agentkit.wallet}")
+    print(f"agentkit.wallet.default_address.address_id: {agentkit.wallet.default_address.address_id}")
     # persist the agent's CDP MPC Wallet Data.
     wallet_data = agentkit.export_wallet()
     with open(wallet_data_file, "w") as f:

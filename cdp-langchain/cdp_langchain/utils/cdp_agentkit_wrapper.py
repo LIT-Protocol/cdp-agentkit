@@ -32,6 +32,11 @@ class CdpAgentkitWrapper(BaseModel):
         network_id = get_from_dict_or_env(values, "network_id", "NETWORK_ID", "base-sepolia")
         wallet_data_json = values.get("cdp_wallet_data")
 
+        # print(f"cdp_api_key_name: {cdp_api_key_name}")
+        # print(f"cdp_api_key_private_key: {cdp_api_key_private_key}")
+        # print(f"network_id: {network_id}")
+        # print(f"wallet_data_json: {wallet_data_json}")
+
         try:
             from cdp import Cdp, Wallet, WalletData
         except Exception:
@@ -44,13 +49,14 @@ class CdpAgentkitWrapper(BaseModel):
             private_key=cdp_api_key_private_key,
             source=CDP_LANGCHAIN_DEFAULT_SOURCE,
             source_version=__version__,
+            use_server_signer=False,
         )
 
-        if wallet_data_json:
-            wallet_data = WalletData.from_dict(json.loads(wallet_data_json))
-            wallet = Wallet.import_data(wallet_data)
-        else:
-            wallet = Wallet.create(network_id=network_id)
+        # if wallet_data_json:
+        #     wallet_data = WalletData.from_dict(json.loads(wallet_data_json))
+        #     wallet = Wallet.import_data(wallet_data)
+        # else:
+        wallet = Wallet.create(network_id=network_id)
 
         values["wallet"] = wallet
         values["cdp_api_key_name"] = cdp_api_key_name
