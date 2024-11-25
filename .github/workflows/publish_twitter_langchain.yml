@@ -1,17 +1,17 @@
-name: Release AgentKit to PyPI
+name: Release Twitter LangChain to PyPI
 
 on:
   workflow_dispatch:
 
 jobs:
-  deploy-agentkit:
+  deploy-twitter-langchain:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./cdp-agentkit-core
+        working-directory: ./twitter-langchain
     environment:
       name: pypi
-      url: https://pypi.org/p/cdp-agentkit-core
+      url: https://pypi.org/p/twitter-langchain
     permissions:
       contents: read
       id-token: write

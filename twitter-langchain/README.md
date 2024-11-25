@@ -21,11 +21,12 @@ pip install twitter-langchain
 Set the following environment variables:
 
 ```bash
-OPENAI_API_KEY=<your-openai-api-key>
-TWITTER_API_KEY=<your-api-key>
-TWITTER_API_SECRET=<your-api-secret>
-TWITTER_ACCESS_TOKEN=<your-access-token>
-TWITTER_ACCESS_TOKEN_SECRET=<your-access-token-secret>
+export OPENAI_API_KEY=<your-openai-api-key>
+export TWITTER_API_KEY=<your-api-key>
+export TWITTER_API_SECRET=<your-api-secret>
+export TWITTER_ACCESS_TOKEN=<your-access-token>
+export TWITTER_ACCESS_TOKEN_SECRET=<your-access-token-secret>
+export TWITTER_BEARER_TOKEN=<your-bearer-token>
 ```
 
 ## Usage
@@ -54,7 +55,10 @@ for tool in tools:
 
 The toolkit provides the following tools:
 
-1. **post_tweet** - Post tweet to Twitter
+1. **account_details** - Get the authenticated account details
+2. **account_mentions** - Get mentions for the account
+3. **post_tweet** - Post a tweet to the account
+3. **post_tweet_reply** - Post a reply to a tweet on Twitter
 
 ### Using with an Agent
 

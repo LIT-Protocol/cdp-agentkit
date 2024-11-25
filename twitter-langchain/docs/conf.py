@@ -11,7 +11,7 @@ import os
 
 sys.path.insert(0, os.path.abspath(".."))
 
-project = 'CDP Agentkit - Core'
+project = 'CDP Agentkit - Twitter LangChain'
 author = 'Coinbase Developer Platform'
 release = '0.0.5'
 

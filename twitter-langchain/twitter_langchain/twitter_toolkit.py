@@ -1,16 +1,11 @@
 """TwitterToolkit."""
 
-from cdp_agentkit_core.actions.social.twitter import (
-    ACCOUNT_DETAILS_PROMPT,
-    POST_TWEET_PROMPT,
-    AccountDetailsInput,
-    PostTweetInput,
-)
+from cdp_agentkit_core.actions.social.twitter import TWITTER_ACTIONS
 from langchain_core.tools import BaseTool
 from langchain_core.tools.base import BaseToolkit
 
-from twitter_langchain.twitter_action import TwitterAction
 from twitter_langchain.twitter_api_wrapper import TwitterApiWrapper
+from twitter_langchain.twitter_tool import TwitterTool
 
 
 class TwitterToolkit(BaseToolkit):
@@ -38,6 +33,7 @@ class TwitterToolkit(BaseToolkit):
         TWITTER_ACCESS_TOKEN_SECRET
         TWITTER_API_KEY
         TWITTER_API_SECRET
+        TWITTER_BEARER_TOKEN
 
     Instantiate:
         .. code-block:: python
@@ -58,7 +54,9 @@ class TwitterToolkit(BaseToolkit):
         .. code-block:: none
 
             account_details
+            account_mentions
             post_tweet
+            post_tweet_reply
 
     Use within an agent:
         .. code-block:: python
@@ -122,28 +120,15 @@ class TwitterToolkit(BaseToolkit):
             TwitterToolkit. The Twitter toolkit.
 
         """
-        actions: list[dict] = [
-            {
-                "mode": "account_details",
-                "name": "account_details",
-                "description": ACCOUNT_DETAILS_PROMPT,
-                "args_schema": AccountDetailsInput,
-            },
-            {
-                "mode": "post_tweet",
-                "name": "post_tweet",
-                "description": POST_TWEET_PROMPT,
-                "args_schema": PostTweetInput,
-            },
-        ]
+        actions = TWITTER_ACTIONS
 
         tools = [
-            TwitterAction(
-                name=action["name"],
-                description=action["description"],
-                mode=action["mode"],
+            TwitterTool(
+                name=action.name,
+                description=action.description,
                 twitter_api_wrapper=twitter_api_wrapper,
-                args_schema=action.get("args_schema", None),
+                args_schema=action.args_schema,
+                func=action.func,
             )
             for action in actions
         ]

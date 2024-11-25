@@ -2,7 +2,20 @@
 
 ## Unreleased
 
+## [0.0.5] - 2024-11-15
+
+### Added
+
+- Added `account_mentions` action.
+- Added `post_tweet_reply` action.
+
+## [0.0.4] - 2024-11-15
+
+### Added
+
 - Added `wow_buy_token` and `wow_sell_token`.
+- Added `token_uri` to `wow_create_token` action for custom token metadata.
+- Refactor twitter actions to conform to extendable `twitter-langchain` updates.
 
 ## [0.0.3] - 2024-11-09
 
